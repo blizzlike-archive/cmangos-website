@@ -15,11 +15,11 @@ var Cfg config.Config
 
 func Render(w http.ResponseWriter, r *http.Request) {
   tpl := template.Must(template.ParseFiles(
-    Cfg.Templates + "/landingpage.html"))
+    Cfg.Templates + "/layout.html", Cfg.Templates + "/landingpage.html"))
   data := LandingPageData{
     Title: Cfg.Title,
   }
   w.WriteHeader(http.StatusOK)
-  tpl.Execute(w, data)
+  tpl.ExecuteTemplate(w, "layout", data)
   return
 }
