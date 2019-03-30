@@ -27,6 +27,8 @@ func main() {
 
   router := mux.NewRouter()
   router.HandleFunc("/", landingpage.Render).Methods("GET")
+  router.PathPrefix("/").Handler(
+    http.StripPrefix("/static/", http.FileServer(http.Dir(cfg.Static))))
 
   log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%d", cfg.Host, cfg.Port), router))
 }

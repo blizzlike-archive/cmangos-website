@@ -4,4 +4,6 @@ port = 5557
 
 title = cmangos-website
 
+[paths]
 templates = ./templates
+public = ./public
