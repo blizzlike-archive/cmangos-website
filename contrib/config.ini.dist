@@ -1,0 +1,7 @@
+[server]
+listen = 127.0.0.1
+port = 5557
+
+title = cmangos-website
+
+templates = ./templates
