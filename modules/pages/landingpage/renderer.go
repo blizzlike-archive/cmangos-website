@@ -9,15 +9,15 @@ import (
 
 type LandingPageData struct {
   Title string
+  LogonServer string
 }
-
-var Cfg config.Config
 
 func Render(w http.ResponseWriter, r *http.Request) {
   tpl := template.Must(template.ParseFiles(
-    Cfg.Templates + "/layout.html", Cfg.Templates + "/landingpage.html"))
+    config.Cfg.Templates + "/layout.html", config.Cfg.Templates + "/landingpage.html"))
   data := LandingPageData{
-    Title: Cfg.Title,
+    Title: config.Cfg.Title,
+    LogonServer: config.Cfg.Realmd,
   }
   w.WriteHeader(http.StatusOK)
   tpl.ExecuteTemplate(w, "layout", data)

@@ -23,8 +23,6 @@ func main() {
     os.Exit(2)
   }
 
-  landingpage.Cfg = cfg
-
   router := mux.NewRouter()
   router.HandleFunc("/", landingpage.Render).Methods("GET")
   router.PathPrefix("/").Handler(

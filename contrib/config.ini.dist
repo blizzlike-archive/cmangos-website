@@ -7,3 +7,6 @@ title = cmangos-website
 [paths]
 templates = ./templates
 public = ./public
+
+[api]
+url = http://127.0.0.1:5556
