@@ -1,18 +1,14 @@
 package config
 
-// "io/ioutil"
 import (
   "encoding/json"
   "net/http"
+
+  iface_config "metagit.org/blizzlike/cmangos-api/cmangos/interface/config"
 )
 
-type ApiConfig struct {
-  NeedInvite bool `json:"needInvite,omitempty"`
-  Realmd string `json:"realmd,omitempty"`
-}
-
-func FetchConfig(url string) (ApiConfig, error) {
-  var cfg ApiConfig
+func FetchConfig(url string) (iface_config.InterfaceConfig, error) {
+  var cfg iface_config.InterfaceConfig
   req, err := http.NewRequest("GET", url + "/config", nil)
   if err != nil {
     return cfg, err
@@ -29,7 +25,6 @@ func FetchConfig(url string) (ApiConfig, error) {
     return cfg, err
   }
 
-  //body, _ := ioutil.ReadAll(resp.Body)
   _ = json.NewDecoder(resp.Body).Decode(&cfg)
   return cfg, nil
 }
