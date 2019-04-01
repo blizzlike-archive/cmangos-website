@@ -3,7 +3,7 @@ package config
 import (
   ini "gopkg.in/ini.v1"
 
-  iface_config "metagit.org/blizzlike/cmangos-api/cmangos/interface/config"
+  "metagit.org/blizzlike/cmangos-api/cmangos/iface"
   apiconfig "metagit.org/blizzlike/cmangos-website/cmangos/api/config"
 )
 
@@ -35,7 +35,7 @@ func Read(file string) (Config, error) {
 
   Cfg.Api = c.Section("api").Key("url").MustString("http://127.0.0.1:5556")
 
-  var apicfg iface_config.InterfaceConfig
+  var apicfg iface.InterfaceConfig
   apicfg, err = apiconfig.FetchConfig(Cfg.Api)
   if err != nil {
     return Cfg, err
