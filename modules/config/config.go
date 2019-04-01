@@ -16,6 +16,7 @@ type Config struct {
   Static string
   NeedInvite bool
   Realmd string
+  Discord string
 }
 
 var Cfg Config
@@ -29,6 +30,7 @@ func Read(file string) (Config, error) {
   Cfg.Host = c.Section("server").Key("listen").MustString("127.0.0.1")
   Cfg.Port = c.Section("server").Key("port").MustInt(5557)
   Cfg.Title = c.Section("server").Key("title").MustString("cmangos-website")
+  Cfg.Discord = c.Section("server").Key("discord").MustString("")
 
   Cfg.Templates = c.Section("paths").Key("templates").MustString("./templates")
   Cfg.Static = c.Section("paths").Key("public").MustString("./public")

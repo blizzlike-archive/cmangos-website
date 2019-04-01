@@ -16,6 +16,7 @@ type LandingPageData struct {
   Title string
   Realmd string
   Realmlist []iface.Realm
+  Discord string
 }
 
 func Render(w http.ResponseWriter, r *http.Request) {
@@ -30,6 +31,7 @@ func Render(w http.ResponseWriter, r *http.Request) {
     Title: config.Cfg.Title,
     Realmd: config.Cfg.Realmd,
     Realmlist: rl.Realmlist,
+    Discord: config.Cfg.Discord,
   }
 
   w.WriteHeader(http.StatusOK)
