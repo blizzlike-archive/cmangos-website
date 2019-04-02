@@ -25,8 +25,10 @@ func Render(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(os.Stderr, "Cannot fetch realmlist (%v)\n", err)
   }
 
-  tpl := template.Must(template.ParseFiles(
-    config.Cfg.Templates + "/layout.html", config.Cfg.Templates + "/landingpage.html"))
+  tpl, _ := template.ParseFiles(
+    config.Cfg.Templates + "/layout.html",
+    config.Cfg.Templates + "/landingpage.html",
+    config.Cfg.Templates + "/header_landingpage.html")
   data := LandingPageData{
     Title: config.Cfg.Title,
     Realmd: config.Cfg.Realmd,
@@ -35,6 +37,6 @@ func Render(w http.ResponseWriter, r *http.Request) {
   }
 
   w.WriteHeader(http.StatusOK)
-  tpl.ExecuteTemplate(w, "layout", data)
+  tpl.Execute(w, data)
   return
 }
