@@ -10,6 +10,7 @@ import (
 
   "metagit.org/blizzlike/cmangos-website/modules/config"
   "metagit.org/blizzlike/cmangos-website/modules/pages/landingpage"
+  "metagit.org/blizzlike/cmangos-website/modules/pages/login"
 )
 
 func main() {
@@ -24,7 +25,9 @@ func main() {
   }
 
   router := mux.NewRouter()
+  router.HandleFunc("/login", login.Render).Methods("GET")
   router.HandleFunc("/", landingpage.Render).Methods("GET")
+
   router.PathPrefix("/").Handler(
     http.StripPrefix("/static/", http.FileServer(http.Dir(cfg.Static))))
 
