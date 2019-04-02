@@ -4,6 +4,7 @@ port = 5557
 
 title = cmangos-website
 #discord = <discord-invite-link>
+cookie = 3600
 
 [paths]
 templates = ./templates

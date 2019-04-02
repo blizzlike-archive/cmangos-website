@@ -25,7 +25,9 @@ func main() {
   }
 
   router := mux.NewRouter()
-  router.HandleFunc("/login", login.Render).Methods("GET")
+  router.HandleFunc("/login", login.RenderGet).Methods("GET")
+  router.HandleFunc("/login", login.RenderPost).Methods("POST")
+
   router.HandleFunc("/", landingpage.Render).Methods("GET")
 
   router.PathPrefix("/").Handler(

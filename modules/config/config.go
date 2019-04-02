@@ -17,6 +17,7 @@ type Config struct {
   NeedInvite bool
   Realmd string
   Discord string
+  CookieMaxAge int
 }
 
 var Cfg Config
@@ -31,6 +32,7 @@ func Read(file string) (Config, error) {
   Cfg.Port = c.Section("server").Key("port").MustInt(5557)
   Cfg.Title = c.Section("server").Key("title").MustString("cmangos-website")
   Cfg.Discord = c.Section("server").Key("discord").MustString("")
+  Cfg.CookieMaxAge = c.Section("server").Key("cookie").MustInt(60 * 60)
 
   Cfg.Templates = c.Section("paths").Key("templates").MustString("./templates")
   Cfg.Static = c.Section("paths").Key("public").MustString("./public")
