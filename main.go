@@ -12,6 +12,7 @@ import (
   "metagit.org/blizzlike/cmangos-website/modules/pages/landingpage"
   "metagit.org/blizzlike/cmangos-website/modules/pages/login"
   "metagit.org/blizzlike/cmangos-website/modules/pages/dashboard"
+  "metagit.org/blizzlike/cmangos-website/modules/pages/invite"
 )
 
 func main() {
@@ -30,6 +31,8 @@ func main() {
   router.HandleFunc("/login", login.RenderPost).Methods("POST")
 
   router.HandleFunc("/dashboard", dashboard.Render).Methods("GET")
+
+  router.HandleFunc("/invite", invite.RenderPost).Methods("POST")
 
   router.HandleFunc("/", landingpage.Render).Methods("GET")
 

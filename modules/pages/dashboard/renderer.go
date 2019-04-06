@@ -8,12 +8,14 @@ import (
 
   api_character "metagit.org/blizzlike/cmangos-api/cmangos/mangosd/character"
   api_realm "metagit.org/blizzlike/cmangos-api/cmangos/realmd/realm"
+  api_invite "metagit.org/blizzlike/cmangos-api/cmangos/api/account"
 
   "metagit.org/blizzlike/cmangos-website/modules/auth"
   "metagit.org/blizzlike/cmangos-website/modules/config"
 
   "metagit.org/blizzlike/cmangos-website/cmangos/api/character"
   "metagit.org/blizzlike/cmangos-website/cmangos/api/realm"
+  "metagit.org/blizzlike/cmangos-website/cmangos/api/invite"
 )
 
 type Characterlist struct {
@@ -25,6 +27,8 @@ type DashboardPageData struct {
   Title string
   Discord string
   Realms []Characterlist
+  Account int64
+  InviteToken []api_invite.InviteInfo
 }
 
 func Render(w http.ResponseWriter, r *http.Request) {
@@ -41,6 +45,8 @@ func Render(w http.ResponseWriter, r *http.Request) {
 
   cookie, _ := r.Cookie("auth-token")
   token := cookie.Value
+
+  tokens, _ := invite.GetInviteTokens(config.Settings.Api, token)
 
   for _, v := range realms {
     var cl Characterlist
@@ -64,6 +70,8 @@ func Render(w http.ResponseWriter, r *http.Request) {
     Title: config.Settings.Title,
     Discord: config.Settings.Discord,
     Realms: characterlist,
+    Account: account.Id,
+    InviteToken: tokens,
   }
 
   w.WriteHeader(http.StatusOK)
