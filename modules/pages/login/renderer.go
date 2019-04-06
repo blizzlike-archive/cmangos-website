@@ -45,7 +45,7 @@ func RenderPost(w http.ResponseWriter, r *http.Request) {
   }
 
   cookie := http.Cookie{
-    Name: "auth",
+    Name: "auth-token",
     Value: token,
     Path: "/",
     MaxAge: config.Settings.CookieMaxAge,
