@@ -11,6 +11,7 @@ import (
   "metagit.org/blizzlike/cmangos-website/modules/config"
   "metagit.org/blizzlike/cmangos-website/modules/pages/landingpage"
   "metagit.org/blizzlike/cmangos-website/modules/pages/login"
+  "metagit.org/blizzlike/cmangos-website/modules/pages/dashboard"
 )
 
 func main() {
@@ -27,6 +28,8 @@ func main() {
   router := mux.NewRouter()
   router.HandleFunc("/login", login.RenderGet).Methods("GET")
   router.HandleFunc("/login", login.RenderPost).Methods("POST")
+
+  router.HandleFunc("/dashboard", dashboard.Render).Methods("GET")
 
   router.HandleFunc("/", landingpage.Render).Methods("GET")
 

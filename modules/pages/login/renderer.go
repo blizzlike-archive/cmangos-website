@@ -18,13 +18,13 @@ type LoginPageData struct {
 
 func RenderGet(w http.ResponseWriter, r *http.Request) {
   tpl, _ := template.ParseFiles(
-    config.Cfg.Templates + "/layout.html",
-    config.Cfg.Templates + "/header_login.html",
-    config.Cfg.Templates + "/login.html")
+    config.Settings.Templates + "/layout.html",
+    config.Settings.Templates + "/header_login.html",
+    config.Settings.Templates + "/login.html")
   data := LoginPageData{
-    Title: config.Cfg.Title,
-    Realmd: config.Cfg.Realmd,
-    Discord: config.Cfg.Discord,
+    Title: config.Settings.Title,
+    Realmd: config.Settings.RealmdAddress,
+    Discord: config.Settings.Discord,
   }
 
   w.WriteHeader(http.StatusOK)
@@ -37,7 +37,7 @@ func RenderPost(w http.ResponseWriter, r *http.Request) {
   u := strings.Join(r.Form["username"], "")
   p := strings.Join(r.Form["password"], "")
 
-  token, err := auth.Authenticate(config.Cfg.Api, u, p)
+  token, err := auth.Authenticate(config.Settings.Api, u, p)
   if err != nil {
     w.Header().Add("Location", "/login")
     w.WriteHeader(http.StatusFound)
@@ -48,7 +48,7 @@ func RenderPost(w http.ResponseWriter, r *http.Request) {
     Name: "auth",
     Value: token,
     Path: "/",
-    MaxAge: config.Cfg.CookieMaxAge,
+    MaxAge: config.Settings.CookieMaxAge,
     HttpOnly: true,
   }
   http.SetCookie(w, &cookie)

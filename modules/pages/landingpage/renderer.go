@@ -6,7 +6,7 @@ import (
   "net/http"
   "os"
 
-  "metagit.org/blizzlike/cmangos-api/cmangos/iface"
+  api_realm "metagit.org/blizzlike/cmangos-api/cmangos/realmd/realm"
 
   "metagit.org/blizzlike/cmangos-website/modules/config"
   "metagit.org/blizzlike/cmangos-website/cmangos/api/realm"
@@ -15,25 +15,25 @@ import (
 type LandingPageData struct {
   Title string
   Realmd string
-  Realmlist []iface.Realm
+  Realmlist []api_realm.Realm
   Discord string
 }
 
 func Render(w http.ResponseWriter, r *http.Request) {
-  rl, err := realm.FetchRealms(config.Cfg.Api)
+  rl, err := realm.FetchRealms(config.Settings.Api)
   if err != nil {
     fmt.Fprintf(os.Stderr, "Cannot fetch realmlist (%v)\n", err)
   }
 
   tpl, _ := template.ParseFiles(
-    config.Cfg.Templates + "/layout.html",
-    config.Cfg.Templates + "/landingpage.html",
-    config.Cfg.Templates + "/header_landingpage.html")
+    config.Settings.Templates + "/layout.html",
+    config.Settings.Templates + "/landingpage.html",
+    config.Settings.Templates + "/header_landingpage.html")
   data := LandingPageData{
-    Title: config.Cfg.Title,
-    Realmd: config.Cfg.Realmd,
-    Realmlist: rl.Realmlist,
-    Discord: config.Cfg.Discord,
+    Title: config.Settings.Title,
+    Realmd: config.Settings.RealmdAddress,
+    Realmlist: rl,
+    Discord: config.Settings.Discord,
   }
 
   w.WriteHeader(http.StatusOK)

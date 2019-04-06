@@ -3,8 +3,8 @@ package config
 import (
   ini "gopkg.in/ini.v1"
 
-  "metagit.org/blizzlike/cmangos-api/cmangos/iface"
-  apiconfig "metagit.org/blizzlike/cmangos-website/cmangos/api/config"
+  api_config "metagit.org/blizzlike/cmangos-api/cmangos/api/config"
+  a_config "metagit.org/blizzlike/cmangos-website/cmangos/api/config"
 )
 
 type Config struct {
@@ -15,38 +15,40 @@ type Config struct {
   Templates string
   Static string
   NeedInvite bool
-  Realmd string
+  RealmdAddress string
+  RealmdPort int
   Discord string
   CookieMaxAge int
 }
 
-var Cfg Config
+var Settings Config
 
 func Read(file string) (Config, error) {
   c, err := ini.Load(file)
   if err != nil {
-    return Cfg, err
+    return Settings, err
   }
 
-  Cfg.Host = c.Section("server").Key("listen").MustString("127.0.0.1")
-  Cfg.Port = c.Section("server").Key("port").MustInt(5557)
-  Cfg.Title = c.Section("server").Key("title").MustString("cmangos-website")
-  Cfg.Discord = c.Section("server").Key("discord").MustString("")
-  Cfg.CookieMaxAge = c.Section("server").Key("cookie").MustInt(60 * 60)
+  Settings.Host = c.Section("server").Key("listen").MustString("127.0.0.1")
+  Settings.Port = c.Section("server").Key("port").MustInt(5557)
+  Settings.Title = c.Section("server").Key("title").MustString("cmangos-website")
+  Settings.Discord = c.Section("server").Key("discord").MustString("")
+  Settings.CookieMaxAge = c.Section("server").Key("cookie").MustInt(60 * 60)
 
-  Cfg.Templates = c.Section("paths").Key("templates").MustString("./templates")
-  Cfg.Static = c.Section("paths").Key("public").MustString("./public")
+  Settings.Templates = c.Section("paths").Key("templates").MustString("./templates")
+  Settings.Static = c.Section("paths").Key("public").MustString("./public")
 
-  Cfg.Api = c.Section("api").Key("url").MustString("http://127.0.0.1:5556")
+  Settings.Api = c.Section("api").Key("url").MustString("http://127.0.0.1:5556")
 
-  var apicfg iface.InterfaceConfig
-  apicfg, err = apiconfig.FetchConfig(Cfg.Api)
+  var apicfg api_config.ApiConfig
+  apicfg, err = a_config.FetchConfig(Settings.Api)
   if err != nil {
-    return Cfg, err
+    return Settings, err
   }
 
-  Cfg.NeedInvite = apicfg.NeedInvite
-  Cfg.Realmd = apicfg.RealmdAddress
+  Settings.NeedInvite = apicfg.RequireInvite
+  Settings.RealmdAddress = apicfg.RealmdAddress
+  Settings.RealmdPort = apicfg.RealmdPort
 
-  return Cfg, nil
+  return Settings, nil
 }

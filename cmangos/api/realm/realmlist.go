@@ -4,11 +4,11 @@ import (
   "encoding/json"
   "net/http"
 
-  "metagit.org/blizzlike/cmangos-api/cmangos/iface"
+  api_realm "metagit.org/blizzlike/cmangos-api/cmangos/realmd/realm"
 )
 
-func FetchRealms(url string) (iface.Realmlist, error) {
-  var rl iface.Realmlist
+func FetchRealms(url string) ([]api_realm.Realm, error) {
+  var rl []api_realm.Realm
   req, err := http.NewRequest("GET", url + "/realm", nil)
   if err != nil {
     return rl, err

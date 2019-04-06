@@ -4,11 +4,11 @@ import (
   "encoding/json"
   "net/http"
 
-  "metagit.org/blizzlike/cmangos-api/cmangos/iface"
+  api_config "metagit.org/blizzlike/cmangos-api/cmangos/api/config"
 )
 
-func FetchConfig(url string) (iface.InterfaceConfig, error) {
-  var cfg iface.InterfaceConfig
+func FetchConfig(url string) (api_config.ApiConfig, error) {
+  var cfg api_config.ApiConfig
   req, err := http.NewRequest("GET", url + "/config", nil)
   if err != nil {
     return cfg, err
