@@ -8,15 +8,19 @@ import (
   "metagit.org/blizzlike/cmangos-website/cmangos/api/auth"
 
   "metagit.org/blizzlike/cmangos-website/modules/config"
+  a_auth "metagit.org/blizzlike/cmangos-website/modules/auth"
 )
 
 type LoginPageData struct {
   Title string
   Realmd string
   Discord string
+  Account int64
 }
 
 func RenderGet(w http.ResponseWriter, r *http.Request) {
+  id := a_auth.Authenticated(r)
+
   tpl, _ := template.ParseFiles(
     config.Settings.Templates + "/layout.html",
     config.Settings.Templates + "/header_login.html",
@@ -25,6 +29,7 @@ func RenderGet(w http.ResponseWriter, r *http.Request) {
     Title: config.Settings.Title,
     Realmd: config.Settings.RealmdAddress,
     Discord: config.Settings.Discord,
+    Account: id,
   }
 
   w.WriteHeader(http.StatusOK)
